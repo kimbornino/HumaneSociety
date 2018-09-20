@@ -11,7 +11,9 @@ namespace HumaneSociety
         static void Main(string[] args)
         {
             PointOfEntry.Run();
-            HumaneSocietyDataContext dataTable = new HumaneSocietyDataContext();
+            HumaneSocietyDataContext DB = new HumaneSocietyDataContext();
+            Client client = new Client();
+
         }
     }
 }
