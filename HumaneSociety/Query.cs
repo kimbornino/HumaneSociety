@@ -69,7 +69,9 @@ namespace HumaneSociety
 
         internal static void UpdateAddress(Client client)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext DB = new HumaneSocietyDataContext();
+            client.Address.InsertOnSubmit(Address);
+            DB.SubmitChanges();
         }
 
         internal static void updateClient(Client client)
@@ -147,7 +149,9 @@ namespace HumaneSociety
 
         internal static Employee EmployeeLogin(string userName, string password)
         {
-            return null;
+            HumaneSocietyDataContext DB = new HumaneSocietyDataContext();
+            var number = DB.Employees.Where(e => e.UserName == userName && e.Password == password).FirstOrDefault();
+            return number;
         }
 
         internal static void RemoveAnimal(object animal)
@@ -157,7 +161,9 @@ namespace HumaneSociety
 
         internal static Employee RetrieveEmployeeUser(string email, int employeeNumber)
         {
-            return null;
+            HumaneSocietyDataContext DB = new HumaneSocietyDataContext();
+            var user = DB.Employees.Where(e => e.Email == email && e.EmployeeId == employeeNumber).FirstOrDefault();
+            return user;
         }
 
         internal static void AddUsernameAndPassword(Employee employee)
