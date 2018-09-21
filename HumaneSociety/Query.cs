@@ -99,8 +99,30 @@ namespace HumaneSociety
         }
 
         internal static void RunEmployeeQueries(Employee employee, string v)
+            //need a delegate function?
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext DB = new HumaneSocietyDataContext();
+            switch (v)
+            {
+                case "create":
+                    DB.Employees.InsertOnSubmit(employee);
+                    DB.SubmitChanges();
+                    break;
+                case "read":
+                    
+                    break;
+                case "update":
+
+                    break;
+                case "Delete":
+                    DB.Employees.DeleteOnSubmit(employee);
+                    DB.SubmitChanges();
+                    break;
+                default:
+                    Console.WriteLine("Input not accepted please try again");
+                    break;
+            } 
+             
         }
 
         internal static IQueryable<Adoption> GetPendingAdoptions()
@@ -148,7 +170,10 @@ namespace HumaneSociety
 
         internal static void AddAnimal(Animal animal)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext DB = new HumaneSocietyDataContext();
+            //Animal animals = new Animal();
+            DB.Animals.InsertOnSubmit(animal);
+            DB.SubmitChanges();
         }
 
         internal static Employee EmployeeLogin(string userName, string password)
