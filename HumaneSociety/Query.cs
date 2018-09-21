@@ -69,9 +69,13 @@ namespace HumaneSociety
 
         internal static void UpdateAddress(Client client)
         {
+     
             HumaneSocietyDataContext DB = new HumaneSocietyDataContext();
-            client.Address.InsertOnSubmit(Address);
+            var foundClient = DB.Clients.Where(c => c.ClientId == client.ClientId).FirstOrDefault();
+            foundClient.Address.AddressLine1 = client.Address.AddressLine1;
+
             DB.SubmitChanges();
+            
         }
 
         internal static void updateClient(Client client)
@@ -168,7 +172,9 @@ namespace HumaneSociety
 
         internal static void AddUsernameAndPassword(Employee employee)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext DB = new HumaneSocietyDataContext();
+            DB.Employees.InsertOnSubmit(employee);
+            DB.SubmitChanges();
         }
 
         internal static Room GetRoom(int animalId)

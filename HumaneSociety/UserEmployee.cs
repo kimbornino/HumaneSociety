@@ -276,6 +276,7 @@ namespace HumaneSociety
         }
         private void CreateNewEmployee()
         {
+            employee = new Employee();
             Console.Clear();
             string email = UserInterface.GetStringData("email", "your");
             int employeeNumber = int.Parse(UserInterface.GetStringData("employee number", "your"));

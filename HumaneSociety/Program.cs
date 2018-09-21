@@ -10,10 +10,10 @@ namespace HumaneSociety
     {
         static void Main(string[] args)
         {
-            //PointOfEntry.Run();
-            HumaneSocietyDataContext DB = new HumaneSocietyDataContext();
+            PointOfEntry.Run();
+            //HumaneSocietyDataContext DB = new HumaneSocietyDataContext();
 
-            Query.AddNewClient("Bob","Barker", "BBob", "thepriceisright","Bbob@OldDude.com", "123 Road Place", 22222, 2);
+           // Query.AddNewClient("Bob","Barker", "BBob", "thepriceisright","Bbob@OldDude.com", "123 Road Place", 22222, 2);
          
 
         }
