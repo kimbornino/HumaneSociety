@@ -24,9 +24,12 @@ namespace HumaneSociety
             
         }
 
-        internal static object GetAnimalByID(int iD)
+        internal static Animal GetAnimalByID(int iD)
         {
-            return null;
+            HumaneSocietyDataContext DB = new HumaneSocietyDataContext();
+            
+            var animal = DB.Animals.Where(a => a.AnimalId == iD).FirstOrDefault();
+            return animal;
         }
 
         internal static void Adopt(object animal, Client client)
@@ -120,7 +123,7 @@ namespace HumaneSociety
             throw new NotImplementedException();
         }
 
-        internal static Species GetSpecies()
+        //internal static Species GetSpecies()
         {
             return null;
         }
