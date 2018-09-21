@@ -123,9 +123,13 @@ namespace HumaneSociety
             throw new NotImplementedException();
         }
 
-        //internal static Species GetSpecies()
+        internal static Species GetSpecies()
         {
-            return null;
+            //var animal = DB.Animals.Where(a => a.AnimalId == iD).FirstOrDefault();
+            //return animal;
+            HumaneSocietyDataContext DB = new HumaneSocietyDataContext();
+            var species = DB.Species.Where(s => s.SpeciesId == ).FirstOrDefault();
+            return species;
         }
 
         internal static DietPlan GetDietPlan()
@@ -160,7 +164,9 @@ namespace HumaneSociety
 
         internal static Room GetRoom(int animalId)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext DB = new HumaneSocietyDataContext();
+            var room = DB.Rooms.Where(r => r.RoomId == animalId).FirstOrDefault();
+            return room;
         }
 
         internal static bool CheckEmployeeUserNameExist(string username)
