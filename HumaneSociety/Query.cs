@@ -61,7 +61,10 @@ namespace HumaneSociety
 
         internal static void AddNewClient(string firstName, string lastName, string username, string password, string email, string streetAddress, int zipCode, int state)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext DB = new HumaneSocietyDataContext();
+            Client client = new Client();
+            DB.Clients.InsertOnSubmit(client);
+                DB.SubmitChanges();
         }
 
         internal static void UpdateAddress(Client client)
@@ -123,14 +126,14 @@ namespace HumaneSociety
             throw new NotImplementedException();
         }
 
-        internal static Species GetSpecies()
-        {
+       // internal static Species GetSpecies()
+        //{
             //var animal = DB.Animals.Where(a => a.AnimalId == iD).FirstOrDefault();
             //return animal;
-            HumaneSocietyDataContext DB = new HumaneSocietyDataContext();
-            var species = DB.Species.Where(s => s.SpeciesId == ).FirstOrDefault();
-            return species;
-        }
+            //HumaneSocietyDataContext DB = new HumaneSocietyDataContext();
+            //var species = DB.Species.SpeciesId.Where(s => s.SpeciesId (Where.(Animal.speciesId)).FirstOrDefault();
+            //return species;
+        //}
 
         internal static DietPlan GetDietPlan()
         {
