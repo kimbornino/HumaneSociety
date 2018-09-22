@@ -18,8 +18,9 @@ namespace HumaneSociety
 
         internal static Client GetClient(string userName, string password)
         {
+            
             HumaneSocietyDataContext DB = new HumaneSocietyDataContext();
-           Client client = null;
+            var client = DB.Clients.Where(c => c.UserName == userName).FirstOrDefault();
             return client;
             
         }
