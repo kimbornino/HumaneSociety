@@ -8,7 +8,7 @@ namespace HumaneSociety
 {
     public static class Query
     {
-        private static object Employees;
+        //private static object Employees;
 
         internal static IQueryable<Adoption> GetUserAdoptionStatus(Client client)
         {
@@ -114,6 +114,9 @@ namespace HumaneSociety
                     
                     break;
                 case "update":
+                    //var updatedEmployee = DB.Employees.Where(e => e.EmployeeId == employee).FirstOrDefault();
+
+                    DB.SubmitChanges();
 
                     break;
                 case "Delete":
@@ -201,7 +204,9 @@ namespace HumaneSociety
          {
             // break here
             HumaneSocietyDataContext DB = new HumaneSocietyDataContext();
-            DB.Employees.InsertOnSubmit(employee);
+            DB.Employees.Where(e => e.UserName == employee.UserName);
+            DB.SubmitChanges();
+            DB.Employees.Where(e => e.Password == employee.Password);
             DB.SubmitChanges();
         }
 
