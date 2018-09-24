@@ -193,23 +193,55 @@ namespace HumaneSociety
             throw new NotImplementedException();
         }
 
-       internal static Species GetSpecies()
+        internal static int CheckSpecies()
         {
             HumaneSocietyDataContext DB = new HumaneSocietyDataContext();
+            Console.WriteLine("Write the common name of the species.");
+            string speciesName = Console.ReadLine();
+            var ExistingSpecies = DB.Species.Where(s => s.Name == speciesName).FirstOrDefault();
+            
+            if (ExistingSpecies != null)
+            {
+                var id = ExistingSpecies.SpeciesId;
+                return id;
+            }
+            else
+            {
+                return 0;
+            }
+              
+    }
+        internal static Species GetSpecies()
+        {
+            HumaneSocietyDataContext DB = new HumaneSocietyDataContext();
+            Species newSpecies = new Species();
+            int exists = CheckSpecies();
+            if (exists != 0)
+            {
+                CheckSpecies();
+            }
+            else
+            {
+                Console.WriteLine();
 
-
-            //var species = DB.Species.Where(s => s.SpeciesId == animalId).FirstOrDefault();
-
-            throw new NotImplementedException();
-            return null;
+            }
+            return newSpecies;
         }
 
         internal static DietPlan GetDietPlan()
         {
             HumaneSocietyDataContext DB = new HumaneSocietyDataContext();
+            Console.WriteLine("Write the animal's diet plan.");
+            string dietPlan = Console.ReadLine();
+            var existingDietPlan = DB.DietPlans.Where(s => s.Name == dietPlan).FirstOrDefault();
+            if (dietPlan != null)
 
-            throw new NotImplementedException();
-
+                return existingDietPlan;
+            else
+            {
+                //should end up being a method that allows user to create new species
+                return null;
+            }
         }
 
         internal static void AddAnimal(Animal animal)
