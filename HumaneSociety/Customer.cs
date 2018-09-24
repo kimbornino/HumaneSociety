@@ -158,7 +158,6 @@ namespace HumaneSociety
             UserInterface.DisplayUserOptions("Please enter a username");
             string username = UserInterface.GetUserInput();
             var clients = Query.RetrieveClients();
-            //needs to return something that can be itterated over
             var clientUsernames = from client in clients select client.UserName;
             if (CheckForForValue(clientUsernames.ToList(), username))
             {

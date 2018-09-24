@@ -17,12 +17,13 @@ namespace HumaneSociety
                 CreateNewEmployee();
                 LogInPreExistingUser();
             }
+
             else
             {
                 Console.Clear();
                 LogInPreExistingUser();
             }
-            RunUserMenus();
+            //RunUserMenus();
         }
         protected override void RunUserMenus()
         {
@@ -260,17 +261,25 @@ namespace HumaneSociety
             userName = UserInterface.GetUserInput();
             UserInterface.DisplayUserOptions("Enter your password (CaSe SeNsItIvE)");
             string password = UserInterface.GetUserInput();
+
             try
             {
                 Console.Clear();
                 employee = Query.EmployeeLogin(userName, password);
-                UserInterface.DisplayUserOptions("Login successfull. Welcome.");
+                if (employee != null)
+                {
+                    UserInterface.DisplayUserOptions("Login successfull. Welcome.");
+                    RunUserMenus();
+                }
             }
             catch
             {
                 Console.Clear();
-                UserInterface.DisplayUserOptions("Employee not found, please try again, create a new user or contact your administrator");
-                LogIn();
+                {
+                    UserInterface.DisplayUserOptions("Employee not found, please try again, create a new user or contact your administrator");
+                    LogIn();
+                }
+                
             }
             
         }

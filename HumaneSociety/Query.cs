@@ -49,7 +49,7 @@ namespace HumaneSociety
         internal static IQueryable<Client> RetrieveClients()
         {
             HumaneSocietyDataContext DB = new HumaneSocietyDataContext();
-            IQueryable<Client> clients = null;
+            IQueryable<Client> clients = DB.Clients;
             return clients;
         
         }
@@ -82,22 +82,34 @@ namespace HumaneSociety
 
         internal static void updateClient(Client client)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext DB = new HumaneSocietyDataContext();
+            var updatedClient = DB.Clients.Where(e => e.ClientId == client.ClientId).FirstOrDefault();
+            updatedClient = client;
+            DB.SubmitChanges();
         }
 
         internal static void UpdateUsername(Client client)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext DB = new HumaneSocietyDataContext();
+            var foundClient = DB.Clients.Where(e => e.UserName == client.UserName).FirstOrDefault();
+            foundClient.UserName = client.UserName;
+            DB.SubmitChanges();
         }
 
         internal static void UpdateFirstName(Client client)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext DB = new HumaneSocietyDataContext();
+            var foundClient = DB.Clients.Where(e => e.FirstName == client.FirstName).FirstOrDefault();
+            foundClient.FirstName = client.FirstName;
+            DB.SubmitChanges();
         }
 
         internal static void UpdateLastName(Client client)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext DB = new HumaneSocietyDataContext();
+            var foundClient = DB.Clients.Where(e => e.LastName == client.LastName).FirstOrDefault();
+            foundClient.LastName = client.LastName;
+            DB.SubmitChanges();
         }
 
         internal static void RunEmployeeQueries(Employee employee, string v)
@@ -111,11 +123,12 @@ namespace HumaneSociety
                     DB.SubmitChanges();
                     break;
                 case "read":
+                  
                     
                     break;
                 case "update":
-                    //var updatedEmployee = DB.Employees.Where(e => e.EmployeeId == employee).FirstOrDefault();
-
+                    var updatedEmployee = DB.Employees.Where(e => e.EmployeeId == employee.EmployeeId).FirstOrDefault();
+                    updatedEmployee = employee;
                     DB.SubmitChanges();
 
                     break;
@@ -184,8 +197,15 @@ namespace HumaneSociety
         internal static Employee EmployeeLogin(string userName, string password)
         {
             HumaneSocietyDataContext DB = new HumaneSocietyDataContext();
-            var number = DB.Employees.Where(e => e.UserName == userName && e.Password == password).FirstOrDefault();
-            return number;
+            var employee = DB.Employees.Where(e => e.UserName == userName && e.Password == password).FirstOrDefault();
+            if (employee != null)
+            {
+                return employee;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         internal static void RemoveAnimal(object animal)
@@ -202,11 +222,13 @@ namespace HumaneSociety
 
         internal static void AddUsernameAndPassword(Employee employee)
          {
-            // break here
+           
             HumaneSocietyDataContext DB = new HumaneSocietyDataContext();
-            DB.Employees.Where(e => e.UserName == employee.UserName);
+           var foundEmployee = DB.Employees.Where(e => e.EmployeeId == employee.EmployeeId).FirstOrDefault();
+            foundEmployee.UserName = employee.UserName;
             DB.SubmitChanges();
             DB.Employees.Where(e => e.Password == employee.Password);
+            foundEmployee.Password = employee.Password;
             DB.SubmitChanges();
         }
 
@@ -229,17 +251,7 @@ namespace HumaneSociety
             {
                 return true;
             }
-            //HumaneSocietyDataContext DB = new HumaneSocietyDataContext();
-            //var employeeUserName = DB.Employees.Where(d => d.UserName) = username);
-          
-            //if (employeeUserName == username)
-            //{
-                //return true;
-            //}
-            //else
-            //{
-               // return false;
-            //}
+            
         }
         
 
