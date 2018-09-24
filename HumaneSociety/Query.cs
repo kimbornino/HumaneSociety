@@ -65,13 +65,14 @@ namespace HumaneSociety
         {
             HumaneSocietyDataContext DB = new HumaneSocietyDataContext();
             Client newClient = new Client();
+            
             newClient.FirstName = firstName;
             newClient.LastName = lastName;
             newClient.UserName = username;
             newClient.Password = password;
             newClient.Email = email;
+            DB.Clients.InsertOnSubmit(newClient);
             DB.SubmitChanges();
-           
         }
 
         internal static void UpdateAddress(Client client)
