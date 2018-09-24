@@ -8,7 +8,6 @@ namespace HumaneSociety
 {
     public static class Query
     {
-        //private static object Employees;
 
         internal static IQueryable<Adoption> GetUserAdoptionStatus(Client client)
         {
@@ -41,9 +40,10 @@ namespace HumaneSociety
 
         internal static IQueryable <Animal> SearchForAnimalByMultipleTraits()
         {
+            //
             HumaneSocietyDataContext DB = new HumaneSocietyDataContext();
-            IQueryable<Animal> animals = null;
-            return animals;
+            IQueryable<Animal> animals = DB.Animals;
+            return DB.Animals;
         }
 
         internal static IQueryable<Client> RetrieveClients()
@@ -73,6 +73,13 @@ namespace HumaneSociety
             newClient.Email = email;
             DB.Clients.InsertOnSubmit(newClient);
             DB.SubmitChanges();
+
+            //need to be able to connect addressid to address table
+            Address newAddress = new Address();
+            var foundAddressLocation = DB.Addresses.Where(a => a.AddressId == newClient.AddressId);
+            newAddress.AddressLine1 = streetAddress;
+            newAddress.Zipcode = zipCode;
+            
         }
 
         internal static void UpdateAddress(Client client)
@@ -89,9 +96,10 @@ namespace HumaneSociety
         internal static void updateClient(Client client)
         {
             HumaneSocietyDataContext DB = new HumaneSocietyDataContext();
-            var updatedClient = DB.Clients.Where(e => e.ClientId == client.ClientId).FirstOrDefault();
+            var updatedClient = DB.Clients.Where(c => c.ClientId == client.ClientId).FirstOrDefault();
             updatedClient = client;
             DB.SubmitChanges();
+
         }
 
         internal static void UpdateUsername(Client client)
@@ -164,7 +172,7 @@ namespace HumaneSociety
         internal static IQueryable<AnimalShot> GetShots(Animal animal)
         {
             HumaneSocietyDataContext DB = new HumaneSocietyDataContext();
-            IQueryable<AnimalShot> shots = null;
+            IQueryable<AnimalShot> shots = DB.AnimalShots;
             return shots;
         }
 
@@ -181,21 +189,25 @@ namespace HumaneSociety
        internal static Species GetSpecies()
         {
             HumaneSocietyDataContext DB = new HumaneSocietyDataContext();
-            throw new NotImplementedException();
 
-            //Species species = DB.Species.Where(s => s.SpeciesId == Animal.speciesId).FirstOrDefault();
-            //return species;
+
+            //var species = DB.Species.Where(s => s.SpeciesId == animalId).FirstOrDefault();
+
+            throw new NotImplementedException();
+            return null;
         }
 
         internal static DietPlan GetDietPlan()
         {
-            return null;
+            HumaneSocietyDataContext DB = new HumaneSocietyDataContext();
+
+            throw new NotImplementedException();
+
         }
 
         internal static void AddAnimal(Animal animal)
         {
             HumaneSocietyDataContext DB = new HumaneSocietyDataContext();
-            //Animal animals = new Animal();
             DB.Animals.InsertOnSubmit(animal);
             DB.SubmitChanges();
         }
@@ -214,9 +226,12 @@ namespace HumaneSociety
             }
         }
 
-        internal static void RemoveAnimal(object animal)
+        internal static void RemoveAnimal(Animal animal)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext DB = new HumaneSocietyDataContext();
+            DB.Animals.DeleteOnSubmit(animal);
+            DB.SubmitChanges();
+            
         }
 
         internal static Employee RetrieveEmployeeUser(string email, int employeeNumber)
