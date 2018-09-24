@@ -169,6 +169,7 @@ namespace HumaneSociety
         }
         public static bool CheckForForValue<T>(List<T> items, T value)
         {
+            //changed code here
             if (items.Contains(value))
             {
                 return true;
@@ -244,7 +245,8 @@ namespace HumaneSociety
                 UserInterface.DisplayUserOptions("Enter your last name.");
                 string lastName = UserInterface.GetUserInput();
                 int zipCode = GetZipCode();
-                int state = GetState();
+                //
+                int state = 1;
                 UserInterface.DisplayUserOptions("Please enter your street address");
                 string streetAddress = UserInterface.GetUserInput();
                 Query.AddNewClient(firstName, lastName, username, password, email, streetAddress, zipCode, state);

@@ -21,7 +21,7 @@ namespace HumaneSociety
         {
             
             HumaneSocietyDataContext DB = new HumaneSocietyDataContext();
-            var client = DB.Clients.Where(c => c.UserName == userName).FirstOrDefault();
+            var client = DB.Clients.Where(c => c.UserName == userName && c.Password == password).FirstOrDefault();
             return client;
             
         }
@@ -49,8 +49,8 @@ namespace HumaneSociety
         internal static IQueryable<Client> RetrieveClients()
         {
             HumaneSocietyDataContext DB = new HumaneSocietyDataContext();
-            IQueryable<Client> clients = DB.Clients;
-            return clients;
+            IQueryable<Client> client = DB.Clients;
+            return DB.Clients;
         
         }
 
@@ -64,9 +64,14 @@ namespace HumaneSociety
         internal static void AddNewClient(string firstName, string lastName, string username, string password, string email, string streetAddress, int zipCode, int state)
         {
             HumaneSocietyDataContext DB = new HumaneSocietyDataContext();
-            Client client = new Client();
-            DB.Clients.InsertOnSubmit(client);
-                DB.SubmitChanges();
+            Client newClient = new Client();
+            newClient.FirstName = firstName;
+            newClient.LastName = lastName;
+            newClient.UserName = username;
+            newClient.Password = password;
+            newClient.Email = email;
+            DB.SubmitChanges();
+           
         }
 
         internal static void UpdateAddress(Client client)
