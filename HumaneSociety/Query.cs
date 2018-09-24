@@ -222,26 +222,60 @@ namespace HumaneSociety
             }
             else
             {
-                Console.WriteLine();
-
+                Console.WriteLine("This species does not exist yet. Please re-enter the name of the species");
+                var newSpeciesName = Console.ReadLine();
+                newSpecies.Name = newSpeciesName;
+                DB.SubmitChanges();
             }
+
             return newSpecies;
         }
 
+        internal static int CheckDietPlans()
+        {
+            HumaneSocietyDataContext DB = new HumaneSocietyDataContext();
+            Console.WriteLine("What diet plan does this animal take?");
+            string dietPlan = Console.ReadLine();
+            var ExistingDietPlan = DB.DietPlans.Where(d => d.Name == dietPlan).FirstOrDefault();
+
+            if (ExistingDietPlan != null)
+            {
+                var id = ExistingDietPlan.DietPlanId;
+                return id;
+            }
+            else
+            {
+                return 0;
+            }
+
+        }
         internal static DietPlan GetDietPlan()
         {
             HumaneSocietyDataContext DB = new HumaneSocietyDataContext();
-            Console.WriteLine("Write the animal's diet plan.");
-            string dietPlan = Console.ReadLine();
-            var existingDietPlan = DB.DietPlans.Where(s => s.Name == dietPlan).FirstOrDefault();
-            if (dietPlan != null)
-
-                return existingDietPlan;
+            DietPlan newDietPlan = new DietPlan();
+            int exists = CheckDietPlans();
+            if (exists != 0)
+            {
+                CheckDietPlans();
+            }
             else
             {
-                //should end up being a method that allows user to create new species
-                return null;
+                Console.WriteLine("This diet plan does not exist yet.  You will need to enter some information.");
+                Console.WriteLine("What is the name of the diet plan?");
+                var newDietPlanName = Console.ReadLine();
+                Console.WriteLine("What type of food does this animal eat?");
+                var newDietPlanFood = Console.ReadLine();
+                Console.WriteLine("How much food (in cups) does this animal consume?");
+                var newDietPlanFoodAmount = Int32.Parse(Console.ReadLine());
+                
+                newDietPlan.Name = newDietPlanName;
+                newDietPlan.FoodType = newDietPlanFood;
+                newDietPlan.FoodAmountInCups = newDietPlanFoodAmount;
+              
+                DB.SubmitChanges();
             }
+
+            return newDietPlan;
         }
 
         internal static void AddAnimal(Animal animal)
