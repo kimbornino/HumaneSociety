@@ -262,10 +262,11 @@ namespace HumaneSociety
         
 
         internal static void UpdateEmail(Client client)
-        {
+        {       
             HumaneSocietyDataContext DB = new HumaneSocietyDataContext();
-            
-            throw new NotImplementedException();
+            var foundClient = DB.Clients.Where(c => c.ClientId == client.ClientId).FirstOrDefault();
+            foundClient.Email = client.Email;
+            DB.SubmitChanges();
         }
     }
 }
