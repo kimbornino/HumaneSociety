@@ -97,7 +97,14 @@ namespace HumaneSociety
         {
             HumaneSocietyDataContext DB = new HumaneSocietyDataContext();
             var updatedClient = DB.Clients.Where(c => c.ClientId == client.ClientId).FirstOrDefault();
-            updatedClient = client;
+            updatedClient.Email = client.Email;
+            updatedClient.UserName = client.UserName;
+            updatedClient.Password = client.Password;
+            updatedClient.HomeSquareFootage = client.HomeSquareFootage;
+            updatedClient.LastName = client.LastName;
+            updatedClient.FirstName = client.FirstName;
+            updatedClient.Income = client.Income;
+            updatedClient.NumberOfKids = client.NumberOfKids;
             DB.SubmitChanges();
 
         }
