@@ -199,34 +199,31 @@ namespace HumaneSociety
             Console.WriteLine("Write the common name of the species.");
             string speciesName = Console.ReadLine();
             var ExistingSpecies = DB.Species.Where(s => s.Name == speciesName).FirstOrDefault();
-            
-            if (ExistingSpecies != null)
+
+            var id = ExistingSpecies.SpeciesId;
+
+            try
             {
-                var id = ExistingSpecies.SpeciesId;
                 return id;
             }
-            else
+            catch
             {
                 return 0;
             }
-              
-    }
+
+            
+        }
+             
+    
         internal static Species GetSpecies()
         {
             HumaneSocietyDataContext DB = new HumaneSocietyDataContext();
             Species newSpecies = new Species();
-            int exists = CheckSpecies();
-            if (exists != 0)
-            {
-                CheckSpecies();
-            }
-            else
-            {
-                Console.WriteLine("This species does not exist yet. Please re-enter the name of the species");
+           Console.WriteLine("This species does not exist yet. Please re-enter the name of the species");
                 var newSpeciesName = Console.ReadLine();
                 newSpecies.Name = newSpeciesName;
                 DB.SubmitChanges();
-            }
+            
 
             return newSpecies;
         }
