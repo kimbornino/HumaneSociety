@@ -35,20 +35,13 @@ namespace HumaneSociety
         internal static void Adopt(object animal, Client client)
         {
             HumaneSocietyDataContext DB = new HumaneSocietyDataContext();
-            Adoption newAdoption = new Adoption();
-            //
-            //HumaneSocietyDataContext DB = new HumaneSocietyDataContext();
-            //var updatedClient = DB.Clients.Where(c => c.ClientId == client.ClientId).FirstOrDefault();
-            //updatedClient.Email = client.Email;
-           
-            //adoptionId
-                //Clientid
-                //animalID
-                //approval status
-                //adoptionfee
-                //paymentcollected
-
+            Animal animals = null;
+            Adoption adoption = null;
+            var adopts = DB.Adoptions.Where(a => a.AdoptionId == adoption.AdoptionId && a.ClientId == client.ClientId && a.AnimalId == animals.AnimalId).FirstOrDefault();
+            var status = DB.Adoptions.Where(s => s.ApprovalStatus == adoption.ApprovalStatus && s.AdoptionFee == adoption.AdoptionFee && s.PaymentCollected == adoption.PaymentCollected).FirstOrDefault();
+            return;
         }
+    }
 
         internal static IQueryable<Animal> SearchForAnimalByMultipleTraits()
         {
