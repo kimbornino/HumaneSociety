@@ -18,11 +18,10 @@ namespace HumaneSociety
 
         internal static Client GetClient(string userName, string password)
         {
-            
+ 
             HumaneSocietyDataContext DB = new HumaneSocietyDataContext();
             var client = DB.Clients.Where(c => c.UserName == userName && c.Password == password).FirstOrDefault();
             return client;
-            
         }
 
         internal static Animal GetAnimalByID(int iD)
@@ -197,7 +196,6 @@ namespace HumaneSociety
             return adoptions;
         }
 
-
         internal static void UpdateAdoption(bool v, Adoption adoption)
         {
             HumaneSocietyDataContext DB = new HumaneSocietyDataContext();
@@ -234,17 +232,17 @@ namespace HumaneSociety
             Console.WriteLine("Write the common name of the shot.");
             string shotName = Console.ReadLine();
             var ExistingShot = DB.Shots.Where(s => s.Name == shotName).FirstOrDefault();
-
-            var id = ExistingShot.ShotId;
-
-            try
+            if (ExistingShot != null)
             {
+                var id = ExistingShot.ShotId;
                 return id;
             }
-            catch
+
+            else
             {
                 return 0;
             }
+            
         }
         internal static Shot CreateNewShot()
         {
@@ -290,7 +288,25 @@ namespace HumaneSociety
 
         internal static void EnterUpdate(Animal animal, Dictionary<int, string> updates)
         {
-            throw new NotImplementedException();
+            //    HumaneSocietyDataContext DB = new HumaneSocietyDataContext();
+            //    animal.AnimalId
+            //        animal.AnimalShots
+            //        animal.Age
+            //        animal.Gender
+            //        animal.EmployeeId
+            //        animal.KidFriendly
+            //        animal.Name
+            //        animal.Species
+            //        animal.SpeciesId
+            //        animal.Weight
+            //        animal.DietPlanId
+            //        animal.DietPlan
+            //        animal.Demeanor
+            //        animal.Employee
+            //        animal.Age
+            //        animal.AdoptionStatus
+            //        animal.PetFriendly
+            
         }
 
         internal static int CheckSpecies()
@@ -419,6 +435,12 @@ namespace HumaneSociety
             DB.SubmitChanges();
         }
 
+        internal static IQueryable<Room> SeeRooms(Animal animal)
+        {
+            HumaneSocietyDataContext DB = new HumaneSocietyDataContext();
+            IQueryable<Room> rooms = DB.Rooms;
+            return rooms;
+        }
         internal static Room GetRoom(int animalId)
         {
             HumaneSocietyDataContext DB = new HumaneSocietyDataContext();
@@ -426,6 +448,19 @@ namespace HumaneSociety
             room.AnimalId = room.AnimalId;
             DB.SubmitChanges();
             return room;
+        }
+
+        internal static void MoveAnimal(Animal animal)
+        {
+            HumaneSocietyDataContext DB = new HumaneSocietyDataContext();
+            var room = DB.Rooms.Where(r => r.AnimalId == animal.AnimalId).FirstOrDefault();
+            Console.WriteLine("The animal is currently in room " + room);
+            Console.WriteLine("What room would you like to move this animal to?");
+            var newRoom = Int32.Parse(Console.ReadLine());
+
+            room.AnimalId = newRoom;
+            DB.SubmitChanges();
+
         }
 
         internal static bool CheckEmployeeUserNameExist(string username)

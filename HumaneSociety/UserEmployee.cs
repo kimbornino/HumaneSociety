@@ -150,12 +150,23 @@ namespace HumaneSociety
                     CheckShots(animal);
                     Console.Clear();
                     return;
+                case 4: MoveAnimal(animal);
+                    Console.Clear();
+                    return;
                 default:
                     UserInterface.DisplayUserOptions("Input not accepted please select a menu choice");
                     return;
             }
         }
 
+        private void MoveAnimal(Animal animal)
+        {
+            List<string> roomInfo = new List<string>();
+            var room = Query.SeeRooms(animal);
+            foreach (var animalRoom in room.ToList());
+            Query.MoveAnimal();
+
+        }
         private void CheckShots(Animal animal)
         {
             List<string> shotInfo = new List<string>();
