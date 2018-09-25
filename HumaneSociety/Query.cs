@@ -12,8 +12,8 @@ namespace HumaneSociety
         internal static IQueryable<Adoption> GetUserAdoptionStatus(Client client)
         {
             HumaneSocietyDataContext DB = new HumaneSocietyDataContext();
-            IQueryable<Adoption> clients = null;
-            return clients;
+            IQueryable<Adoption> adoptions = DB.Adoptions;
+            return adoptions;
         }
 
         internal static Client GetClient(string userName, string password)
@@ -71,7 +71,7 @@ namespace HumaneSociety
         internal static IQueryable<USState> GetStates()
         {
             HumaneSocietyDataContext DB = new HumaneSocietyDataContext();
-            IQueryable<USState> name = null;
+            IQueryable<USState> name = DB.USStates;
             return name;
         }
 
@@ -89,11 +89,21 @@ namespace HumaneSociety
             DB.SubmitChanges();
 
             //need to be able to connect addressid to address table
-            Address newAddress = new Address();
-            var foundAddressLocation = DB.Addresses.Where(a => a.AddressId == newClient.AddressId);
-            newAddress.AddressLine1 = streetAddress;
-            newAddress.Zipcode = zipCode;
-            
+            //Address newAddress = new Address();
+            //var foundAddressLocation = DB.Addresses.Where(a => a.AddressId == newClient.AddressId);
+            //newAddress.AddressLine1 = streetAddress;
+            //newAddress.Zipcode = zipCode;
+                    
+           newClient.Address = new Address();
+                
+           newClient.Address.AddressLine1 = streetAddress;
+           newClient.Address.Zipcode = zipCode;
+           newClient.Address.USStateId = state;
+                
+            DB.Clients.InsertOnSubmit(newClient);
+            DB.Addresses.InsertOnSubmit(newClient.Address);
+            DB.SubmitChanges();
+
         }
 
         internal static void UpdateAddress(Client client)
@@ -158,8 +168,16 @@ namespace HumaneSociety
                     DB.SubmitChanges();
                     break;
                 case "read":
-                  
-                    
+                    {
+                        var employeeToRead = DB.Employees.SingleOrDefault(Employee => employee.EmployeeId == Employee.EmployeeId);
+
+                        Console.WriteLine("Firstname: " + employeeToRead.FirstName);
+                        Console.WriteLine("Lastname: " + employeeToRead.LastName);
+                        Console.WriteLine("Username: " + employeeToRead.UserName);
+                        Console.WriteLine("Password: " + employeeToRead.Password);
+                        Console.WriteLine("Email: " + employeeToRead.Email);
+                    }
+
                     break;
                 case "update":
                     var updatedEmployee = DB.Employees.Where(e => e.EmployeeId == employee.EmployeeId).FirstOrDefault();
@@ -185,9 +203,27 @@ namespace HumaneSociety
             return adoptions;
         }
 
+
         internal static void UpdateAdoption(bool v, Adoption adoption)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext DB = new HumaneSocietyDataContext();
+
+            if (v == true)
+            {
+              
+                //adoption.AdoptionFee
+                //adoption.AdoptionId
+                //adoption.AnimalId
+                //adoption.ApprovalStatus
+                //adoption.ClientId
+                //adoption.Client
+
+
+            }
+            else
+            {
+
+            }
         }
 
         internal static IQueryable<AnimalShot> GetShots(Animal animal)
@@ -197,9 +233,53 @@ namespace HumaneSociety
             return shots;
         }
 
+        internal static int CheckShotExists()
+        {
+            HumaneSocietyDataContext DB = new HumaneSocietyDataContext();
+            Console.WriteLine("Write the common name of the shot.");
+            string shotName = Console.ReadLine();
+            var ExistingShot = DB.Shots.Where(s => s.Name == shotName).FirstOrDefault();
+
+            var id = ExistingShot.ShotId;
+
+            try
+            {
+                return id;
+            }
+            catch
+            {
+                return 0;
+            }
+        }
+        internal static Shot CreateNewShot()
+        {
+            HumaneSocietyDataContext DB = new HumaneSocietyDataContext();
+            Shot shot = new Shot();
+            Console.WriteLine("That shot is not in the databse. What is the name of the new shot?");
+            var newShotName = Console.ReadLine();
+            shot.Name = newShotName;
+            DB.SubmitChanges();
+
+            return shot;
+        }
+                                            //type of shot, animal
         internal static void UpdateShot(string v, Animal animal)
         {
-            throw new NotImplementedException();
+            
+        }
+
+        internal static void updateDateRecieved(string v, Animal animal)
+        {
+            HumaneSocietyDataContext DB = new HumaneSocietyDataContext();
+            var foundId = DB.AnimalShots.Where(s => s.AnimalId == animal.AnimalId).FirstOrDefault();
+            // foundAnimal returns AnimalShots.animalId of passed animal
+            var foundAnimal = DB.Shots.Where(s => s.ShotId == foundId.ShotId).FirstOrDefault();
+            // found ShoutId returns the shotId of shots.
+            var foundShot = DB.Shots.Where(s => s.Name == v).FirstOrDefault();
+
+            var shotDate = DateTime();
+            var animalShotDate = DB.AnimalShots.Where(s => s.DateReceived == foundId.DateReceived).FirstOrDefault();
+            animalShotDate.DateReceived = shotDate;
         }
 
         internal static void EnterUpdate(Animal animal, Dictionary<int, string> updates)
@@ -223,12 +303,9 @@ namespace HumaneSociety
             catch
             {
                 return 0;
-            }
-
-            
+            }            
         }
-             
-    
+                
         internal static Species GetSpecies()
         {
             HumaneSocietyDataContext DB = new HumaneSocietyDataContext();
@@ -236,8 +313,7 @@ namespace HumaneSociety
            Console.WriteLine("This species does not exist yet. Please re-enter the name of the species");
                 var newSpeciesName = Console.ReadLine();
                 newSpecies.Name = newSpeciesName;
-                DB.SubmitChanges();
-            
+                DB.SubmitChanges();            
 
             return newSpecies;
         }
@@ -341,6 +417,8 @@ namespace HumaneSociety
         {
             HumaneSocietyDataContext DB = new HumaneSocietyDataContext();
             var room = DB.Rooms.Where(r => r.RoomId == animalId).FirstOrDefault();
+            room.AnimalId = room.AnimalId;
+            DB.SubmitChanges();
             return room;
         }
 
@@ -359,7 +437,6 @@ namespace HumaneSociety
             
         }
         
-
         internal static void UpdateEmail(Client client)
         {       
             HumaneSocietyDataContext DB = new HumaneSocietyDataContext();
