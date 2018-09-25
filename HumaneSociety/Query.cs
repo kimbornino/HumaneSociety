@@ -87,12 +87,6 @@ namespace HumaneSociety
             newClient.Email = email;
             DB.Clients.InsertOnSubmit(newClient);
             DB.SubmitChanges();
-
-            //need to be able to connect addressid to address table
-            //Address newAddress = new Address();
-            //var foundAddressLocation = DB.Addresses.Where(a => a.AddressId == newClient.AddressId);
-            //newAddress.AddressLine1 = streetAddress;
-            //newAddress.Zipcode = zipCode;
                     
            newClient.Address = new Address();
                 
@@ -226,6 +220,7 @@ namespace HumaneSociety
             }
         }
 
+        //return list of shots by animal id
         internal static IQueryable<AnimalShot> GetShots(Animal animal)
         {
             HumaneSocietyDataContext DB = new HumaneSocietyDataContext();
@@ -262,25 +257,36 @@ namespace HumaneSociety
 
             return shot;
         }
-                                            //type of shot, animal
+
         internal static void UpdateShot(string v, Animal animal)
         {
-            
-        }
-
-        internal static void updateDateRecieved(string v, Animal animal)
-        {
             HumaneSocietyDataContext DB = new HumaneSocietyDataContext();
-            var foundId = DB.AnimalShots.Where(s => s.AnimalId == animal.AnimalId).FirstOrDefault();
-            // foundAnimal returns AnimalShots.animalId of passed animal
-            var foundAnimal = DB.Shots.Where(s => s.ShotId == foundId.ShotId).FirstOrDefault();
-            // found ShoutId returns the shotId of shots.
-            var foundShot = DB.Shots.Where(s => s.Name == v).FirstOrDefault();
+            AnimalShot animalShot = new AnimalShot();
+            DateTime dat1 = new DateTime();
 
-            var shotDate = DateTime();
-            var animalShotDate = DB.AnimalShots.Where(s => s.DateReceived == foundId.DateReceived).FirstOrDefault();
-            animalShotDate.DateReceived = shotDate;
+            var existsResult = CheckShotExists();
+            if (existsResult != 0)
+            {
+
+            }
+        
+            else
+            {
+                CreateNewShot();
+            }
+
+        
+            var foundShot = DB.Shots.Where(s => s.Name == v).FirstOrDefault();
+            //returns name of shot where it matches name passed in.
+            var foundAnimalShot = DB.AnimalShots.Where(s => s.AnimalId == animal.AnimalId && s.ShotId == foundShot.ShotId).FirstOrDefault();
+
+            animalShot.AnimalId = foundAnimalShot.AnimalId;
+            animalShot.ShotId = foundAnimalShot.ShotId;
+            animalShot.DateReceived = dat1;
+
+            DB.AnimalShots.InsertOnSubmit(animalShot);
         }
+
 
         internal static void EnterUpdate(Animal animal, Dictionary<int, string> updates)
         {
