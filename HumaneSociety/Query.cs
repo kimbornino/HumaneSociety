@@ -50,13 +50,57 @@ namespace HumaneSociety
 
         }
 
-        internal static IQueryable <Animal> SearchForAnimalByMultipleTraits()
+        internal static IQueryable<Animal> SearchForAnimalByMultipleTraits()
         {
-            //
             HumaneSocietyDataContext DB = new HumaneSocietyDataContext();
             IQueryable<Animal> animals = DB.Animals;
-            return DB.Animals;
-
+            Animal animal = new Animal();
+            //Console.WriteLine("What would you like to search by? 'AnimalId', 'Name', 'SpeciesId', 'Weight', 'Age', 'DietPlanId', 'Demeanor', 'KidFriendly', 'PetFriendly', 'Gender', 'AdpotionStatus', 'EmployeeId' ");
+            //Console.ReadLine();
+            string type = null;
+            switch (type)
+            {
+                case ("AnimalId"):
+                    var id = DB.Animals.Where(i => i.AnimalId == animal.AnimalId);
+                    break;
+                case ("Name"):
+                    var names = DB.Animals.Where(n => n.Name == animal.Name);
+                    break;
+                case ("SpeciesId"):
+                    var specy = DB.Animals.Where(s => s.SpeciesId == animal.SpeciesId);
+                    break;
+                case ("Weight"):
+                    var weights = DB.Animals.Where(w => w.Weight == animal.Weight);
+                    break;
+                case ("Age"):
+                    var ages = DB.Animals.Where(a => a.Age == animal.Age);
+                    break;
+                case "DietPlanId":
+                    var diet = DB.Animals.Where(d => d.DietPlanId == animal.DietPlanId);
+                    break;
+                case "Demeanor":
+                    var demeanors = DB.Animals.Where(d => d.Demeanor == animal.Demeanor);
+                    break;
+                case "KidFriendly":
+                    var kids = DB.Animals.Where(k => k.KidFriendly == animal.KidFriendly);
+                    break;
+                case "PetFriendly":
+                    var pets = DB.Animals.Where(p => p.PetFriendly == animal.PetFriendly);
+                    break;
+                case "Gender":
+                    var genders = DB.Animals.Where(g => g.Gender == animal.Gender);
+                    break;
+                case "AdoptionStatus":
+                    var adoptions = DB.Animals.Where(a => a.AdoptionStatus == animal.AdoptionStatus);
+                    break;
+                case "EmployeeId":
+                    var employees = DB.Animals.Where(e => e.EmployeeId == animal.EmployeeId);
+                    break;
+                default:
+                    Console.WriteLine("Not a vaild trait");
+                    
+                    return DB.Animals;
+            }
         }
 
         internal static IQueryable<Client> RetrieveClients()

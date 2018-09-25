@@ -164,7 +164,7 @@ namespace HumaneSociety
             List<string> roomInfo = new List<string>();
             var room = Query.SeeRooms(animal);
             foreach (var animalRoom in room.ToList());
-            Query.MoveAnimal();
+            Query.MoveAnimal(animal);
 
         }
         private void CheckShots(Animal animal)
