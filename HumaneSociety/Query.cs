@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -548,6 +549,21 @@ namespace HumaneSociety
             var foundClient = DB.Clients.Where(c => c.ClientId == client.ClientId).FirstOrDefault();
             foundClient.Email = client.Email;
             DB.SubmitChanges();
+        }
+        internal static void CSVFile()
+        {
+            var query = from line in File.ReadLines("C:\\animals.csv")
+                        let csvLines = line.Split(';')
+                        from csvLine in csvLines
+                        where !String.IsNullOrWhiteSpace(csvLine)
+                        let data = csvLine.Split(',')
+                        select new
+                        {
+                            ID = data[0],
+                            FirstNumber = data[1],
+                            SecondNumber = data[2],
+                            ThirdNumber = data[3]
+                        };
         }
     }
 }
