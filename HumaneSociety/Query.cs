@@ -35,7 +35,20 @@ namespace HumaneSociety
 
         internal static void Adopt(object animal, Client client)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext DB = new HumaneSocietyDataContext();
+            Adoption newAdoption = new Adoption();
+            //
+            //HumaneSocietyDataContext DB = new HumaneSocietyDataContext();
+            //var updatedClient = DB.Clients.Where(c => c.ClientId == client.ClientId).FirstOrDefault();
+            //updatedClient.Email = client.Email;
+           
+            //adoptionId
+                //Clientid
+                //animalID
+                //approval status
+                //adoptionfee
+                //paymentcollected
+
         }
 
         internal static IQueryable <Animal> SearchForAnimalByMultipleTraits()
@@ -44,6 +57,7 @@ namespace HumaneSociety
             HumaneSocietyDataContext DB = new HumaneSocietyDataContext();
             IQueryable<Animal> animals = DB.Animals;
             return DB.Animals;
+
         }
 
         internal static IQueryable<Client> RetrieveClients()
@@ -167,7 +181,7 @@ namespace HumaneSociety
         internal static IQueryable<Adoption> GetPendingAdoptions()
         {
             HumaneSocietyDataContext DB = new HumaneSocietyDataContext();
-            IQueryable<Adoption> adoptions = null;
+            IQueryable<Adoption> adoptions = DB.Adoptions;
             return adoptions;
         }
 
