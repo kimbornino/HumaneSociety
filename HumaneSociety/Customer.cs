@@ -114,6 +114,15 @@ namespace HumaneSociety
             }
         }
 
+        private void ApprovalStatus(Adoption adoption)
+        {
+            Query.GetApprovalStatus(adoption);
+        }
+        private void CollectMoney(Adoption adoption)
+        {
+            Query.UpdatePaymentStatus(adoption);
+        }
+
         private void RunSearch()
         {
             Console.Clear();            

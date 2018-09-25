@@ -95,6 +95,8 @@ namespace HumaneSociety
             }
         }
 
+        
+
         private void CheckAnimalStatus()
         {
             Console.Clear();            

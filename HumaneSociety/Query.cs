@@ -31,8 +31,7 @@ namespace HumaneSociety
             var animal = DB.Animals.Where(a => a.AnimalId == iD).FirstOrDefault();
             return animal;
         }
-
-        internal static void Adopt(object animal, Client client)
+        vjh internal static void Adopt(object animal, Client client)
         {
             HumaneSocietyDataContext DB = new HumaneSocietyDataContext();
             Animal animals = null;
@@ -41,7 +40,21 @@ namespace HumaneSociety
             var status = DB.Adoptions.Where(s => s.ApprovalStatus == adoption.ApprovalStatus && s.AdoptionFee == adoption.AdoptionFee && s.PaymentCollected == adoption.PaymentCollected).FirstOrDefault();
             return;
         }
-    }
+
+        internal static object GetApprovalStatus(Adoption adoption)
+        {
+            HumaneSocietyDataContext DB = new HumaneSocietyDataContext();
+            Adoption approval = DB.Adoptions.Where(a => a.AnimalId == adoption.AnimalId && a.ApprovalStatus == adoption.ApprovalStatus).FirstOrDefault();
+            return approval;
+        }
+        internal static void UpdatePaymentStatus(Adoption adoption)
+        {
+            HumaneSocietyDataContext DB = new HumaneSocietyDataContext();
+            adoption.PaymentCollected = true;
+            adoption.AdoptionFee = 75;
+            DB.SubmitChanges();
+        }
+
 
         internal static IQueryable<Animal> SearchForAnimalByMultipleTraits()
         {
@@ -49,7 +62,7 @@ namespace HumaneSociety
             IQueryable<Animal> animals = DB.Animals;
             Animal animal = new Animal();
             //Console.WriteLine("What would you like to search by? 'AnimalId', 'Name', 'SpeciesId', 'Weight', 'Age', 'DietPlanId', 'Demeanor', 'KidFriendly', 'PetFriendly', 'Gender', 'AdpotionStatus', 'EmployeeId' ");
-            //Console.ReadLine();
+            Console.ReadLine();
             string type = null;
             switch (type)
             {
